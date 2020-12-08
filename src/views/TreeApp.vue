@@ -12,7 +12,7 @@
 </template>
 
 <script>
-// import FolderTemplate from "@/components/FolderTemplate"
+import json from "@/divisions.json"
 
 export default {
   components: { 
@@ -20,28 +20,29 @@ export default {
   },
   data() {
     return {
-      treeData: {
-        name: "My Tree",
-        children: [
-          { name: "hello" },
-          { name: "wat" },
-          {
-            name: "child folder",
-            children: [
-              {
-                name: "child folder",
-                children: [{ name: "hello" }, { name: "wat" }]
-              },
-              { name: "hello" },
-              { name: "wat" },
-              {
-                name: "child folder",
-                children: [{ name: "hello" }, { name: "wat" }]
-              }
-            ]
-          }
-        ]
-      }
+      treeData: json,
+      // treeData: {
+      //   name: "My Tree",
+      //   children: [
+      //     { name: "hello" },
+      //     { name: "wat" },
+      //     {
+      //       name: "child folder",
+      //       children: [
+      //         {
+      //           name: "child folder",
+      //           children: [{ name: "hello" }, { name: "wat" }]
+      //         },
+      //         { name: "hello" },
+      //         { name: "wat" },
+      //         {
+      //           name: "child folder",
+      //           children: [{ name: "hello" }, { name: "wat" }]
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // }
     }
   },
   methods: {
@@ -54,6 +55,11 @@ export default {
         name: "new stuff"
       });
     }
+  },
+  created(){
+    if (Array.isArray(this.treeData)) {
+      this.treeData = this.treeData[0]
+    } 
   }
 }
 </script>
