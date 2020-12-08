@@ -13,6 +13,7 @@
 
 <script>
 import json from "@/divisions.json"
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   components: { 
@@ -20,45 +21,34 @@ export default {
   },
   data() {
     return {
-      treeData: json,
-      // treeData: {
-      //   name: "My Tree",
-      //   children: [
-      //     { name: "hello" },
-      //     { name: "wat" },
-      //     {
-      //       name: "child folder",
-      //       children: [
-      //         {
-      //           name: "child folder",
-      //           children: [{ name: "hello" }, { name: "wat" }]
-      //         },
-      //         { name: "hello" },
-      //         { name: "wat" },
-      //         {
-      //           name: "child folder",
-      //           children: [{ name: "hello" }, { name: "wat" }]
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // }
+      treeData: json
     }
   },
   methods: {
+    ...mapActions(["fetchTrees"]),
     makeFolder: function(item) {
       this.$set(item, "children", []);
       this.addItem(item);
     },
     addItem: function(item) {
+      console.log(item)
       item.children.push({
-        name: "new stuff"
+        name: "new stuff",
+        count: 0
       });
     }
+    // deleteItem: function(item) {
+    //   delete item[name]
+    // }
   },
+  computed: mapGetters(["allTodos"]),
   created(){
     if (Array.isArray(this.treeData)) {
-      this.treeData = this.treeData[0]
+      this.treeData = {
+        name: "Root",
+        count: this.treeData.length,
+        children: this.treeData
+      }
     } 
   }
 }

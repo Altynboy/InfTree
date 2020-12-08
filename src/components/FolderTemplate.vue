@@ -4,7 +4,7 @@
           :class="{bold: isFolder}"
           @click="toggle"
           @dblclick="makeFolder">
-          {{ item.name }}
+          {{ item.name  + "  | " + item.count}}
           <span v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
         </div>
         <ul v-show="isOpen" v-if="isFolder">
@@ -25,8 +25,8 @@
 export default {
     name: "tree-item",
     props: {
-          item: Object
-        },
+        item: Object
+    },
     data: function() {
         return {
             isOpen: false
@@ -34,7 +34,6 @@ export default {
     },
     computed: {
         isFolder: function() {
-            console.log(this.item)
             return this.item.children && this.item.children.length;
         }
     },
