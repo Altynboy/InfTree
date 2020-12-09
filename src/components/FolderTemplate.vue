@@ -1,5 +1,6 @@
 <template>
-    <li>
+    <li v-if="!isDeleted">
+        <span @click="deleteFolder">[{{'delete'}}]</span>
         <div
           :class="{bold: isFolder}"
           @click="toggle"
@@ -15,6 +16,9 @@
             :item="child"
             @make-folder="$emit('make-folder', $event)"
             @add-item="$emit('add-item', $event)"
+            @delete-folder="$store.dispatch('trackPathIndex', index );
+                            $store.dispatch('trackPath', item.name);
+                            $emit('delete-folder', $event)"
           ></tree-item>
           <li class="add" @click="$emit('add-item', item)">+</li>
         </ul>
@@ -25,11 +29,12 @@
 export default {
     name: "tree-item",
     props: {
-        item: Object
+        item: Object,
     },
     data: function() {
         return {
-            isOpen: false
+            isOpen: false,
+            isDeleted: false
         };
     },
     computed: {
@@ -48,7 +53,15 @@ export default {
                 this.$emit("make-folder", this.item);
                 this.isOpen = true;
             }
+        },
+        deleteFolder: function() {
+            this.$store.dispatch('newPath')
+            this.$emit("delete-folder", this.item);
+            this.isDeleted = true
         }
+    },
+    created() {
+        // console.log(this.item.name)
     }
 }
 </script>
